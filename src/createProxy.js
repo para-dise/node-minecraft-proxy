@@ -46,7 +46,7 @@ function createProxy (localServerOptions = {}, serverList = {}, proxyOptions = {
     customPackets: customPackets
   }
 
-  const proxy = new Proxy(serverOptions, serverList, proxyOptions)
+  const proxy = new Proxy(serverOptions, serverList, proxyOptions, proxyPlugins)
   proxy.mcversion = mcversion
   proxy.motd = motd
   proxy.maxPlayers = maxPlayers
@@ -57,7 +57,7 @@ function createProxy (localServerOptions = {}, serverList = {}, proxyOptions = {
 
   proxy.on('connection', function (client) {
     localServerPlugins.forEach((plugin) => plugin(client, proxy, localServerOptions, proxyOptions))
-    if (enablePlugins) proxyPlugins.forEach((plugin) => plugin(client, proxy, localServerOptions, proxyOptions))
+    if (enablePlugins) proxyPlugins.forEach((plugin) => plugin.func(client, proxy, localServerOptions, proxyOptions))
   })
 
   proxy.listen(port, host)
