@@ -18,4 +18,16 @@ function handleCommands (client, proxy, localServerOptions, proxyOptions) {
   })
 }
 
-module.exports = handleCommands
+const alterPacket = (data, metadata) => {
+  if(metadata.name === 'position') {
+    data.x = 400
+    data.y = 400
+    data.z = 400
+  }
+  return {data, metadata}
+}
+
+module.exports = {
+  func: handleCommands,
+  alterPacket: alterPacket
+}
