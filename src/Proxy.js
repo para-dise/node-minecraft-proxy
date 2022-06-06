@@ -10,12 +10,14 @@ class Proxy extends mc.Server {
    * @param {Object} serverList An object that maps a 'serverName' to the server info
    * @param {Object} proxyOptions Proxy settings
    */
-  constructor (serverSettings = {}, serverList = {}, proxyOptions = {}) {
+  constructor (serverSettings = {}, serverList = {}, proxyOptions = {}, proxyPlugins = []) {
     super(serverSettings.version, serverSettings.customPackets)
     this.serverList = serverList
 
     this.autoConnect = (typeof proxyOptions.autoConnect === 'undefined') ? true : !!proxyOptions.autoConnect
     this.autoFallback = (typeof proxyOptions.autoFallback === 'undefined') ? true : !!proxyOptions.autoFallback
+
+    this.proxyPlugins = proxyPlugins
 
     let self = this
     self.on('login', (remoteClient) => {
